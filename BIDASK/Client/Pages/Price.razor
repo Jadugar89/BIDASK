@@ -1,0 +1,37 @@
+﻿@page "/Price"
+@inject HttpClient Http
+
+<h3>Price</h3>
+
+
+@if (prices == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>@prices.Symbol</p>
+    <p>@prices.Ask</p>
+    <p>@prices.Bid</p>
+
+
+}
+@if (Inited)
+{
+
+    @foreach (string test in ArrSymbols)
+    {
+        <div>
+            @test
+        </div>
+    }
+
+}
+else
+{
+    <h4>Niezrobione</h4>
+}
+<button @onclick="Testowa">Ania</button>
+
+<button @onclick="Buy">Kup</button>
+
