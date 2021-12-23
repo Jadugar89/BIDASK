@@ -3,7 +3,6 @@
 
 <h3>Price</h3>
 
-
 @if (prices == null)
 {
     <p><em>Loading...</em></p>
@@ -35,3 +34,7 @@ else
 
 <button @onclick="Buy">Kup</button>
 
+@if(Content != null)
+{
+    @Content
+}

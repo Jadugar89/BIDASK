@@ -22,7 +22,7 @@ namespace BIDASK.Client.Pages
         private PriceXTB prices;
         private bool Inited = false;
         private string[] ArrSymbols;
-
+        private string Content;
 
         public Price()
         {
@@ -51,6 +51,26 @@ namespace BIDASK.Client.Pages
         }
         public async Task Buy()
         {
+            TradeTransactionResponse tradeTransactionResponse;
+            HttpResponseMessage httpResponseMessage;
+            CommandtoApi commandtoApi = new CommandtoApi(userId,password,"US100");
+            Console.WriteLine("Funkcja Buy");
+            try
+            {
+
+                httpResponseMessage= await Http.PostAsJsonAsync("Buy", commandtoApi);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    Content = "ok";
+                }
+                
+                Console.WriteLine("ok");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            
 
 
         }

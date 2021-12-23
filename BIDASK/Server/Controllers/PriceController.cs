@@ -66,5 +66,7 @@ namespace BIDASK.Server.Controllers
             return allSymbolsResponse.SymbolRecords.Where(x=>x.CategoryName=="IND").Select(x => x.Symbol).ToArray(); ;
         }
 
+        
+
     }
 }
