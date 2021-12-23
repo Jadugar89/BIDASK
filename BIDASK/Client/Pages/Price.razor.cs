@@ -29,13 +29,13 @@ namespace BIDASK.Client.Pages
 
         }
 
-
+        
         protected override async Task OnInitializedAsync()
         {
             ArrSymbols = await Http.GetFromJsonAsync<string[]>("price/symbols?userId=" + userId + "&password=" + password);
             Inited = true;
         }
-
+        
 
         public async Task Testowa()
         {
@@ -51,7 +51,7 @@ namespace BIDASK.Client.Pages
         }
         public async Task Buy()
         {
-            TradeTransactionResponse tradeTransactionResponse;
+           
             HttpResponseMessage httpResponseMessage;
             CommandtoApi commandtoApi = new CommandtoApi(userId,password,"US100");
             Console.WriteLine("Funkcja Buy");

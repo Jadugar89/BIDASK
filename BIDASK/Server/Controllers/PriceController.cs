@@ -63,7 +63,7 @@ namespace BIDASK.Server.Controllers
             
             connector.Streaming.Disconnect();
             APICommandFactory.ExecuteLogoutCommand(connector);
-            return allSymbolsResponse.SymbolRecords.Where(x=>x.CategoryName=="IND").Select(x => x.Symbol).ToArray(); ;
+            return allSymbolsResponse.SymbolRecords.Where(x=>x.CategoryName=="IND").Select(x => x.Symbol).ToArray(); 
         }
 
         

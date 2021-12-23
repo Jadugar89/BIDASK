@@ -3,6 +3,8 @@
 
 <h3>Price</h3>
 
+<TableWithOpenPosition userId= "@userId" password="@password"></TableWithOpenPosition>
+
 @if (prices == null)
 {
     <p><em>Loading...</em></p>
@@ -30,11 +32,11 @@ else
 {
     <h4>Niezrobione</h4>
 }
-<button @onclick="Testowa">Ania</button>
+<button @onclick="Testowa">US100</button>
 
 <button @onclick="Buy">Kup</button>
 
-@if(Content != null)
+@if (Content != null)
 {
     @Content
 }

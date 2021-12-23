@@ -20,8 +20,6 @@ namespace BIDASK.Server.Controllers
     public class BuyController : ControllerBase
     {
         private static xAPI.Sync.Server server = xAPI.Sync.Servers.DEMO;
-        // private static string userId = "12836146";
-        // private static string password = "xoh67782";
 
         private readonly ILogger<PriceController> _logger;
 
@@ -50,6 +48,9 @@ namespace BIDASK.Server.Controllers
                 TRADE_TRANSACTION_TYPE.ORDER_OPEN,
                 price, commandtoApi.sl, commandtoApi.tp, symbolResponse.Symbol.Symbol, commandtoApi.volume, order, customComment, expiration);
             TradeTransactionResponse tradeTransactionResponse = APICommandFactory.ExecuteTradeTransactionCommand(connector, ttOpenInfoRecord);
+            if(tradeTransactionResponse.Status.Value)
+
+
 
             connector.Streaming.Disconnect();
             APICommandFactory.ExecuteLogoutCommand(connector);

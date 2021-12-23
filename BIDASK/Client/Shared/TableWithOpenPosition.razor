@@ -1,0 +1,58 @@
+﻿@inject HttpClient Http
+@using BIDASK.Shared
+
+@if (trades == null)
+{
+    <p>Wczytywanie</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Type</th>
+                <th>Open Price</th>
+                <th>Open Time</th>
+                <th>Profit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tradeRecord in trades)
+            {
+                <tr>
+                    <td>@tradeRecord.Symbol</td>
+                    <td>@tradeRecord.Typ</td>
+                    <td>@tradeRecord.Open_price</td>
+                    <td>@tradeRecord.dateTime</td>
+                    <td>@tradeRecord.Profit</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public string userId { set; get; }
+
+    [Parameter]
+    public string password { set; get; }
+
+    private TradeOpen[] trades;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Console.WriteLine("Funkcja Aktualne Positions");
+        trades = await Http.GetFromJsonAsync<TradeOpen[]>("OpenPositions?userId=" + userId + "&password=" + password);
+        Console.WriteLine("Funkcja Aktualne Positions pobrane dane");
+
+    }
+
+
+
+}
