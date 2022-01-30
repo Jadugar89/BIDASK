@@ -1,0 +1,25 @@
+﻿@page "/ShowOcassions"
+@inject IGetCandles GetCanles
+@inject HttpClient Http
+
+<h3>ShowOcassions</h3>
+<button @onclick="CheckResult">Strategia</button>
+@code {
+    private static Server serverData = Servers.DEMO;
+    private static string userId = "12922586";
+    private static string password = "xoh28140";
+
+
+    public async Task CheckResult()
+    {
+        GetCandles getCandles = new GetCandles();
+        System.TimeSpan timeSpan = new System.TimeSpan(30, 0, 0, 0, 0);
+        System.DateTime dateTime = System.DateTime.Now.Subtract(timeSpan);
+        System.TimeSpan timeSpan1 = TimeSpan.FromTicks(dateTime.Ticks);
+        Console.WriteLine("CheckResult");
+        await getCandles.GetCandlesFromServer(Http,userId, password, "US100", 1440, timeSpan1.Milliseconds);
+
+    }
+
+
+}

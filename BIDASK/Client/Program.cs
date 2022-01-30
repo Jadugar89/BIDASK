@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using BIDASK.Client.Services;
 
 namespace BIDASK.Client
 {
@@ -18,6 +19,7 @@ namespace BIDASK.Client
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped<IGetCandles, GetCandles>();
 
             await builder.Build().RunAsync();
 

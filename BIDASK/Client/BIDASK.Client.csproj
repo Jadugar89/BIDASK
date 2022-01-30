@@ -22,4 +22,12 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\scripts\DrawChart.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Indicators\Averages\" />
+  </ItemGroup>
+
 </Project>

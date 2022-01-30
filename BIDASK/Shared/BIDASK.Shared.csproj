@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Skender.Stock.Indicators" Version="1.20.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\Downloads\xAPI25-XTB-net\xAPI25-XTB-net\src\SyncAPIConnector\SyncAPIConnect.csproj" />
   </ItemGroup>
 

@@ -19,9 +19,7 @@ namespace BIDASK.Server.Controllers
 
     public class PriceController : ControllerBase
     {
-        private static xAPI.Sync.Server server = xAPI.Sync.Servers.DEMO;
-       // private static string userId = "12836146";
-       // private static string password = "xoh67782";
+        
 
         private readonly ILogger<PriceController> _logger;
 
@@ -33,8 +31,10 @@ namespace BIDASK.Server.Controllers
 
         [HttpGet]
         public PriceXTB Get([FromQuery] string userId, [FromQuery] string password,[FromQuery] string symbol)
-        {            
-             SyncAPIConnector connector = new SyncAPIConnector(server);
+        {
+            xAPI.Sync.Server serverData = Servers.DEMO;
+            Console.WriteLine(serverData.MainPort);
+            SyncAPIConnector connector = new SyncAPIConnector(serverData);
              Credentials credentials = new Credentials(userId, password);
              APICommandFactory.ExecuteLoginCommand(connector, credentials);
             connector.Streaming.Connect();
@@ -54,7 +54,8 @@ namespace BIDASK.Server.Controllers
         [HttpGet("symbols")]
         public IEnumerable<string> Get([FromQuery] string userId, [FromQuery] string password)
         {
-            SyncAPIConnector connector = new SyncAPIConnector(server);
+            xAPI.Sync.Server serverData = Servers.DEMO;
+            SyncAPIConnector connector = new SyncAPIConnector(serverData);
             Credentials credentials = new Credentials(userId, password);
             APICommandFactory.ExecuteLoginCommand(connector, credentials);
             connector.Streaming.Connect();

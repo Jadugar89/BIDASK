@@ -1,0 +1,42 @@
+﻿@using BIDASK.Shared;
+@inject HttpClient Http
+
+<button @onclick=ButtonClicked>Perform interop</button>
+<h3>Chart</h3>
+
+<canvas id="myCanvas" width="500" height="500"></canvas>
+
+
+@code {
+    private IJSObjectReference _jsModule;
+    private Candle[] candles;
+    [Inject]
+    public IJSRuntime JS { get; set; }
+
+    [Parameter]
+    public string userId { set; get; }
+
+    [Parameter]
+    public string password { set; get; }
+    [Parameter]
+    public string symbol { set; get; }
+    [Parameter]
+    public int period { set; get; }
+    [Parameter]
+    public long time { set; get; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./scripts/DrawChart.js");
+
+    }
+
+    private async Task ButtonClicked()
+    {
+
+        Console.WriteLine("Cena otwarcia "+candles[0].Open.ToString());
+
+        await _jsModule.InvokeVoidAsync("DrawChart", candles.ToList());
+    }
+
+}

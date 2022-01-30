@@ -17,8 +17,8 @@ namespace BIDASK.Client.Pages
     public partial class Price
     {
         private static Server serverData = Servers.DEMO;
-        private static string userId = "12836146";
-        private static string password = "xoh67782";
+        private static string userId = "12922586";
+        private static string password = "xoh28140";
         private PriceXTB prices;
         private bool Inited = false;
         private string[] ArrSymbols;
@@ -30,12 +30,16 @@ namespace BIDASK.Client.Pages
         }
 
         
-        protected override async Task OnInitializedAsync()
-        {
-            ArrSymbols = await Http.GetFromJsonAsync<string[]>("price/symbols?userId=" + userId + "&password=" + password);
-            Inited = true;
-        }
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+       // protected override async Task OnInitializedAsync()
+       // {
+       //     ArrSymbols = await Http.GetFromJsonAsync<string[]>("price/symbols?userId=" + userId + "&password=" + password);
+       //     Inited = true;
+       // }
+       // 
 
         public async Task Testowa()
         {

@@ -19,7 +19,7 @@ namespace BIDASK.Server.Controllers
 
     public class BuyController : ControllerBase
     {
-        private static xAPI.Sync.Server server = xAPI.Sync.Servers.DEMO;
+        private static xAPI.Sync.Server serverData = Servers.DEMO;
 
         private readonly ILogger<PriceController> _logger;
 
@@ -33,7 +33,7 @@ namespace BIDASK.Server.Controllers
         [HttpPost]
         public TradeTransactionResponse BuyNow([FromBody] CommandtoApi commandtoApi)
         {
-            SyncAPIConnector connector = new SyncAPIConnector(server);
+            SyncAPIConnector connector = new SyncAPIConnector(serverData);
             Credentials credentials = new Credentials(commandtoApi.ID, commandtoApi.Password);
             APICommandFactory.ExecuteLoginCommand(connector, credentials);
             connector.Streaming.Connect();

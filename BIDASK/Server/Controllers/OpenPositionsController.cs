@@ -18,13 +18,21 @@ namespace BIDASK.Server.Controllers
     [ApiController]
     public class OpenPositionsController : ControllerBase
     {
-        private static xAPI.Sync.Server server = xAPI.Sync.Servers.DEMO;
+
+        private static xAPI.Sync.Server serverData = Servers.DEMO;
+
+        private readonly ILogger<OpenPositionsController> _logger;
+
+        public OpenPositionsController(ILogger<OpenPositionsController> logger)
+        {
+            _logger = logger;
+        }
 
         [HttpGet]
         public IEnumerable<TradeOpen> Get([FromQuery] string userId, [FromQuery] string password)
         {
 
-                SyncAPIConnector connector = new SyncAPIConnector(server);
+                SyncAPIConnector connector = new SyncAPIConnector(serverData);
                 Credentials credentials = new Credentials(userId, password);
                 APICommandFactory.ExecuteLoginCommand(connector, credentials);
                 connector.Streaming.Connect();
@@ -40,18 +48,30 @@ namespace BIDASK.Server.Controllers
                 tradeOpen.Symbol = item.Symbol;
                 tradeOpen.Typ = (int)item.Cmd;
                 tradeOpen.Open_price = (double)item.Open_price;
-                tradeOpen.dateTime = new DateTime((long)item.Timestamp);
-                tradeOpen.Profit = (double)item.Profit;
+                tradeOpen.dateTime = UnixTimeToDateTime((long)item.Open_time);
+                if (item.Profit == null)
+                {
+                    tradeOpen.Profit = 0.0;
+                }
+                else
+                {
+                    tradeOpen.Profit = (double)item.Profit;
+                }
                 tradeOpens.Add(tradeOpen);
                 }
                return tradeOpens.ToArray();
         }
 
-        private  DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        /// <summary>
+        /// Convert Unix time value to a DateTime object.
+        /// </summary>
+        /// <param name="unixtime">The Unix time stamp you want to convert to DateTime.</param>
+        /// <returns>Returns a DateTime object that represents value of the Unix time.</returns>
+        public DateTime UnixTimeToDateTime(long unixtime)
         {
-            // Unix timestamp is seconds past epoch
             System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            dtDateTime = dtDateTime.AddMilliseconds(unixtime).ToLocalTime();
+
             return dtDateTime;
         }
 
