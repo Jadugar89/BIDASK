@@ -1,10 +1,11 @@
 ﻿@page "/Price"
-@inject HttpClient Http
+@inject HttpClient Http;
 
 <h3>Price</h3>
-
-<TableWithOpenPosition userId= "@userId" password="@password"></TableWithOpenPosition>
-
+@if (Inited)
+{
+    <TableWithOpenPosition></TableWithOpenPosition>
+}
 @if (prices == null)
 {
     <p><em>Loading...</em></p>
@@ -32,10 +33,12 @@ else
 {
     <h4>Niezrobione</h4>
 }
-<button @onclick="Testowa">US100</button>
+@if (Inited)
+{
+    <button @onclick="Testowa">US100</button>
 
-<button @onclick="Buy">Kup</button>
-
+    <button @onclick="Buy">Kup</button>
+}
 @if (Content != null)
 {
     @Content

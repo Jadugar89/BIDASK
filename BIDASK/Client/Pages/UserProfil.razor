@@ -1,0 +1,50 @@
+﻿@page "/UserProfil"
+@inject IGetProfil GetProfil
+@inject HttpClient Http
+
+@if (GetProfil._UserProfil == null)
+{
+    <div>Loading Profil</div>
+}
+else
+{
+    <form>
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname">
+    </form>
+
+    <EditForm Model="@GetProfil._UserProfil" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-check">
+            <label for="username" class="text-dark">Nazwa Uzytkownika</label>
+            <InputText id="name" @bind-Value="GetProfil._UserProfil.Name" class="form-text" />
+        </div>
+            <label for="username">XTB Nazwa Uzytkownika</label>
+            <InputText id="name" @bind-Value="GetProfil._UserProfil.XTB_name" class="form-text" />
+            <label for="username">XTB Haslo Uzytkownika</label>
+            <InputText id="name" @bind-Value="GetProfil._UserProfil.XTB_pass" type="password" class="form-text" />
+            <button type="submit">Update</button>
+    </EditForm>
+
+
+}
+
+@code {
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await GetProfil.LoadUserProfilAsync();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await GetProfil.UpdateUserProfilAsync();
+    }
+
+}

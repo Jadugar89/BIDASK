@@ -11,6 +11,7 @@ using xAPI.Records;
 using xAPI.Codes;
 using Microsoft.Extensions.Logging;
 using BIDASK.Shared;
+using BIDASK.Server.Services;
 
 namespace BIDASK.Server.Controllers
 {
@@ -22,23 +23,21 @@ namespace BIDASK.Server.Controllers
         
 
         private readonly ILogger<PriceController> _logger;
+        private readonly IUtilityService _UtilityService;
 
-        public PriceController(ILogger<PriceController> logger)
+        public PriceController(ILogger<PriceController> logger,IUtilityService utilityService)
         {
             _logger = logger;
+            _UtilityService = utilityService;
         }
 
 
         [HttpGet]
-        public PriceXTB Get([FromQuery] string userId, [FromQuery] string password,[FromQuery] string symbol)
+        public async Task<PriceXTB> Get(string symbol)
         {
             xAPI.Sync.Server serverData = Servers.DEMO;
-            Console.WriteLine(serverData.MainPort);
-            SyncAPIConnector connector = new SyncAPIConnector(serverData);
-             Credentials credentials = new Credentials(userId, password);
-             APICommandFactory.ExecuteLoginCommand(connector, credentials);
-            connector.Streaming.Connect();
-            
+
+            SyncAPIConnector connector = await _UtilityService.GetConnected();
 
             SymbolResponse symbolResponse= APICommandFactory.ExecuteSymbolCommand(connector, symbol);
             connector.Streaming.Disconnect();
@@ -52,13 +51,9 @@ namespace BIDASK.Server.Controllers
         }
 
         [HttpGet("symbols")]
-        public IEnumerable<string> Get([FromQuery] string userId, [FromQuery] string password)
+        public async Task<IEnumerable<string>> Get()
         {
-            xAPI.Sync.Server serverData = Servers.DEMO;
-            SyncAPIConnector connector = new SyncAPIConnector(serverData);
-            Credentials credentials = new Credentials(userId, password);
-            APICommandFactory.ExecuteLoginCommand(connector, credentials);
-            connector.Streaming.Connect();
+            SyncAPIConnector connector = await _UtilityService.GetConnected();
 
             AllSymbolsResponse allSymbolsResponse= APICommandFactory.ExecuteAllSymbolsCommand(connector, true);
             
@@ -66,8 +61,6 @@ namespace BIDASK.Server.Controllers
             APICommandFactory.ExecuteLogoutCommand(connector);
             return allSymbolsResponse.SymbolRecords.Where(x=>x.CategoryName=="IND").Select(x => x.Symbol).ToArray(); 
         }
-
-        
 
     }
 }

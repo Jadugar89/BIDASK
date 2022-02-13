@@ -12,17 +12,18 @@ using System.Net.Http;
 using BIDASK.Shared;
 using Newtonsoft.Json;
 
+
 namespace BIDASK.Client.Pages
 {
     public partial class Price
     {
-        private static Server serverData = Servers.DEMO;
-        private static string userId = "12922586";
-        private static string password = "xoh28140";
+
         private PriceXTB prices;
         private bool Inited = false;
         private string[] ArrSymbols;
         private string Content;
+
+        private bool TableOK = false;
 
         public Price()
         {
@@ -30,22 +31,18 @@ namespace BIDASK.Client.Pages
         }
 
         
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-       // protected override async Task OnInitializedAsync()
-       // {
-       //     ArrSymbols = await Http.GetFromJsonAsync<string[]>("price/symbols?userId=" + userId + "&password=" + password);
-       //     Inited = true;
-       // }
-       // 
+        protected override async Task OnInitializedAsync()
+        {
+            ArrSymbols = await Http.GetFromJsonAsync<string[]>("price/symbols");
+            Inited = true;
+        }
+        
 
         public async Task Testowa()
         {
             try
             {
-                prices = await Http.GetFromJsonAsync<PriceXTB>("price?userId=" + userId + "&password=" + password + "&symbol=US100");
+                prices = await Http.GetFromJsonAsync<PriceXTB>("price?&symbol=US100");
             }
             catch (Exception ex)
             {
@@ -57,7 +54,7 @@ namespace BIDASK.Client.Pages
         {
            
             HttpResponseMessage httpResponseMessage;
-            CommandtoApi commandtoApi = new CommandtoApi(userId,password,"US100");
+            CommandtoApi commandtoApi = new CommandtoApi("US100");
             Console.WriteLine("Funkcja Buy");
             try
             {

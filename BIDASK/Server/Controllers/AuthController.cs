@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace BIDASK.Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _authRepo;

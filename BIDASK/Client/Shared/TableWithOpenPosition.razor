@@ -34,11 +34,6 @@ else
 
 @code {
 
-    [Parameter]
-    public string userId { set; get; }
-
-    [Parameter]
-    public string password { set; get; }
 
     private TradeOpen[] trades;
 
@@ -46,9 +41,9 @@ else
     {
 
         Console.WriteLine("Funkcja Aktualne Positions");
-        trades = await Http.GetFromJsonAsync<TradeOpen[]>("OpenPositions?userId=" + userId + "&password=" + password);
+        trades = await Http.GetFromJsonAsync<TradeOpen[]>("OpenPositions");
         Console.WriteLine("Funkcja Aktualne Positions pobrane dane");
-
+        
     }
 
 }

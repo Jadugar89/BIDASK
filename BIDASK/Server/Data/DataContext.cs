@@ -15,6 +15,6 @@ namespace BIDASK.Server.Data
         }
         public DbSet<User> Users { get; set; }
 
-
+        public DbSet<UserProfil> userProfils { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using xAPI.Records;
 using xAPI.Codes;
 using Microsoft.Extensions.Logging;
 using BIDASK.Shared;
+using BIDASK.Server.Services;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BIDASK.Server.Controllers
@@ -22,23 +23,22 @@ namespace BIDASK.Server.Controllers
         private static xAPI.Sync.Server serverData = Servers.DEMO;
 
         private readonly ILogger<OpenPositionsController> _logger;
+        private readonly IUtilityService _UtilityService;
 
-        public OpenPositionsController(ILogger<OpenPositionsController> logger)
+        public OpenPositionsController(ILogger<OpenPositionsController> logger,IUtilityService utilityService)
         {
             _logger = logger;
+            _UtilityService = utilityService;
         }
 
         [HttpGet]
-        public IEnumerable<TradeOpen> Get([FromQuery] string userId, [FromQuery] string password)
+        public async Task<IEnumerable<TradeOpen>> Get()
         {
 
-                SyncAPIConnector connector = new SyncAPIConnector(serverData);
-                Credentials credentials = new Credentials(userId, password);
-                APICommandFactory.ExecuteLoginCommand(connector, credentials);
-                connector.Streaming.Connect();
-                TradesResponse tradesResponse = APICommandFactory.ExecuteTradesCommand(connector, true);
-                connector.Streaming.Disconnect();
-                APICommandFactory.ExecuteLogoutCommand(connector);
+            SyncAPIConnector connector =  await _UtilityService.GetConnected();
+            TradesResponse tradesResponse = APICommandFactory.ExecuteTradesCommand(connector, true);
+            connector.Streaming.Disconnect();
+            APICommandFactory.ExecuteLogoutCommand(connector);
 
                 List<TradeOpen> tradeOpens = new List<TradeOpen>();
 

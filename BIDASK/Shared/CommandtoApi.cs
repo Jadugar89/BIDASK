@@ -15,10 +15,9 @@ namespace BIDASK.Shared
         public double tp { get; set; } = 0.0;
         public double volume { get; set; } = 0.1;
 
-        public CommandtoApi(string ID, string Password, string Symbol)
+        public CommandtoApi(string Symbol)
         {
-            this.ID = ID;
-            this.Password = Password;
+
             this.Symbol = Symbol;
         }
     }
